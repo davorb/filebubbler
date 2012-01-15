@@ -4,7 +4,23 @@
 
 require 'fileutils'
 
-dirpath = "D:\\tmp1"
+# inputbox code http://snippets.dzone.com/posts/show/10261
+def inputbox( message, title="Message from #{__FILE__}" )
+  # returns nil if 'cancel' is clicked
+  # returns a (possibly empty) string otherwise
+  require 'win32ole'
+  # hammer the arguments to vb-script style
+  vb_msg = %Q| "#{message.gsub("\n",'"& vbcrlf &"')}"|
+  vb_msg.gsub!( "\t", '"& vbtab &"' )
+  vb_msg.gsub!( '&""&','&' )
+  vb_title = %Q|"#{title}"|
+  # go!
+  sc = WIN32OLE.new( "ScriptControl" )
+  sc.language = "VBScript"
+  sc.eval(%Q|Inputbox(#{vb_msg}, #{vb_title})|)
+end
+
+dirpath = inputbox("Please enter the file path", "filebubbler")
 
 dir = Dir.new dirpath
 dir.each do |subdirname|
