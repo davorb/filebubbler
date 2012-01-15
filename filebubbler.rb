@@ -3,12 +3,12 @@
 # up one level.
 
 require 'fileutils'
+require 'win32ole'
 
-# inputbox code http://snippets.dzone.com/posts/show/10261
+# http://snippets.dzone.com/posts/show/10261
 def inputbox( message, title="Message from #{__FILE__}" )
   # returns nil if 'cancel' is clicked
   # returns a (possibly empty) string otherwise
-  require 'win32ole'
   # hammer the arguments to vb-script style
   vb_msg = %Q| "#{message.gsub("\n",'"& vbcrlf &"')}"|
   vb_msg.gsub!( "\t", '"& vbtab &"' )
@@ -21,7 +21,6 @@ def inputbox( message, title="Message from #{__FILE__}" )
 end
 
 def popup(message)
-  require 'win32ole'
   wsh = WIN32OLE.new('WScript.Shell')
   wsh.popup(message, 0, __FILE__)
 end
