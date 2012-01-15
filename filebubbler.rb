@@ -37,4 +37,5 @@ dir.each do |subdirname|
     puts "Moving #{orig_file_path} to #{new_file_path}"
     FileUtils.mv("#{orig_file_path}", "#{new_file_path}")
   end
+  Dir.delete full_subdir_path
 end
