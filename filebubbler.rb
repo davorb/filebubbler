@@ -20,7 +20,21 @@ def inputbox( message, title="Message from #{__FILE__}" )
   sc.eval(%Q|Inputbox(#{vb_msg}, #{vb_title})|)
 end
 
+def popup(message)
+  require 'win32ole'
+  wsh = WIN32OLE.new('WScript.Shell')
+  wsh.popup(message, 0, __FILE__)
+end
+
 dirpath = inputbox("Please enter the file path", "filebubbler")
+
+# close down unless this is the drive E:\ because
+# we don't want to acidentally delete folders from
+# an important and/or system drive.
+if dirpath[0] != "K"
+  popup "Not allowed on this drive!"
+  exit
+end
 
 dir = Dir.new dirpath
 dir.each do |subdirname|
